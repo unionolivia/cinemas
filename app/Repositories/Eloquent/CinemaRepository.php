@@ -1,21 +1,69 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Eloquent;
 
-use App\Repositories\BaseRepositoryInterface;
+use App\Repositories\Interfaces\CinemaRepositoryInterface;
+use App\Repositories\AbstractEloquentRepository;
+use Illuminate\Support\MessageBag;
+use App\Cinema;
 
-class CinemaRepository implements BaseRepositoryInterface
+class CinemaRepository extends AbstractEloquentRepository implements CinemaRepositoryInterface
 {
-  protected $cinema;
 
-    public function __construct(Cinema $cinema)
-    {
-        $this->cinema = $cinema;
-    }
+  protected $model;
+
+  /**
+   * 
+   */
+  public function __construct(Cinema $model)
+  {
+    parent::__construct(new MessageBag);
+    $this->model = $model;
+  }
     
+    /**
+     * Create
+     * 
+     * @param $array
+     * @return \Illuminate\Database\Eloquent\User $user
+     */
     public function create(array $data)
     {
-        $cinema = $this->cinema->create($data);
-        return $cinema->toArray();
+        return $this->model->create($data);
     }
+
+    /**
+     * Update
+     */
+    public function update($id, array $data)
+    {
+      $model = $this->find($id);
+
+      if($model){
+        $model->update($data);
+        return $model;
+      }
+
+    }
+
+    /**
+     * Delete
+     */
+    public function delete($id){
+      $model = $this->find($id);
+
+      if($model){
+        $model->delete();
+        return true;
+      }
+    }
+
+    public function all(array $with = array()){
+      return $this->model->all();
+    }
+
+    public function find($id, array $with = array()){
+      return $this->model->find($id);
+    }
+
 }

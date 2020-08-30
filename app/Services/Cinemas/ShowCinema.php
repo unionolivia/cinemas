@@ -4,7 +4,8 @@ namespace App\Services;
 
 use App\Repositories\Eloquent\CinemaRepository;
 
-class CreateCinema
+
+class ShowCinema
 {
     protected $cinemaRepository;
 
@@ -12,11 +13,12 @@ class CreateCinema
         $this->cinemaRepository = $cinemaRepository;
     }
 
-    public function execute(array $data){
-            return $this->cinemaRepository->create([
-             'name' => $data['name'],
-             'address' => $data['address']
-            ]);
-            
+    public function execute($id){
+        
+        return $this->cinemaRepository->find($id);
+
     }
+
+    
+
 }

@@ -3,25 +3,61 @@
 namespace App\Repositories\Eloquent;
 
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\AbstractEloquentRepository;
+use Illuminate\Support\MessageBag;
 use App\User;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends AbstractEloquentRepository implements UserRepositoryInterface
 {
-  protected $user;
 
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
+  protected $model;
+
+  /**
+   * 
+   */
+  public function __construct(User $model)
+  {
+    parent::__construct(new MessageBag);
+    $this->model = $model;
+  }
     
+    /**
+     * Create
+     * 
+     * @param $array
+     * @return \Illuminate\Database\Eloquent\User $user
+     */
     public function create(array $data)
     {
-        $user = $this->user->create($data);
-        return $user;
+        return $this->model->create($data);
     }
 
-    public function findBy($column, $value)
-     {
-        return $this->user->where($column, $value)->first();
-     }
+    /**
+     * Update
+     */
+    public function update(array $data)
+    {
+      
+    }
+
+    /**
+     * Delete
+     */
+    public function delete($id){
+      $model = $this->find($id);
+
+      if($model){
+        return $model->delete;
+      }
+
+    }
+
+    /**
+     * Get user by email
+    */
+    public function getFirstBy($key, $value, array $with = array()){
+      return $this->model->where($key, '=', $value)->first();
+    }
+
+
 }

@@ -19,6 +19,7 @@ Route::post('login', 'Api\UserController@login');
 Route::get('/user', 'Api\UserController@getAuthUser');
 Route::post('logout', 'Api\UserController@logout');
 Route::apiResource('showtime', 'Api\ShowtimeController');
+Route::apiResource('cinema', 'Api\CinemaController');
 
 Route::group(['middleware' => ['jwt.verify']], function(){
     Route::post('showtime', 'Api\ShowtimeController@store');

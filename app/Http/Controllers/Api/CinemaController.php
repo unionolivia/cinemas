@@ -1,8 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Services\CreateCinema;
+use App\Services\ListCinema;
+use App\Services\ShowCinema;
+use App\Services\UpdateCinema;
+use App\Services\DeleteCinema;
+use App\Http\Controllers\Controller;
 
 class CinemaController extends Controller
 {
@@ -11,9 +17,9 @@ class CinemaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ListCinema $action)
     {
-        //
+        return $action->execute();
     }
 
     /**
@@ -22,9 +28,9 @@ class CinemaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, CreateCinema $action)
     {
-        //
+        return $action->execute(request(['name', 'address']));        
     }
 
     /**
@@ -33,9 +39,9 @@ class CinemaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, ShowCinema $action)
     {
-        //
+        return $action->execute($id);
     }
 
     /**
@@ -45,9 +51,9 @@ class CinemaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, UpdateCinema $action)
     {
-        //
+        return $action->execute($id, request(['name', 'address'])); 
     }
 
     /**
@@ -56,8 +62,8 @@ class CinemaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, DeleteCinema $action)
     {
-        //
+        return $action->execute($id);
     }
 }

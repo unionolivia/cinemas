@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Hash;
-use App\Exceptions\DuplicateEmailException;
 use App\Repositories\Eloquent\UserRepository;
 use App\Helpers\JwtHelper;
 
@@ -20,7 +19,7 @@ class CreateUser
         $email = $data['email'];
         
       try{
-        $this->userRepository->findBy('email', $email);
+        $this->userRepository->getFirstBy('email', $email);
        
         $user = $this->userRepository->create([
          'name' => $data['name'],

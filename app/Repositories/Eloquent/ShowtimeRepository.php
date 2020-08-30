@@ -16,13 +16,11 @@ class ShowtimeRepository implements ShowtimeRepositoryInterface
 
     public function create(array $data)
     {
-        $showtime = $this->showtime->create($data);
-        return $showtime;
+        return $this->showtime->create($data);
     }
     
     public function listShowtime()
     {
-        $result = $this->showtime->with('movie', 'cinema')->get();
-        return $result;
+        return $this->showtime->with('movie', 'cinema')->get();
     }
 }

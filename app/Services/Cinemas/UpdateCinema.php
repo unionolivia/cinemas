@@ -3,8 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\Eloquent\CinemaRepository;
+use App\Exceptions\NotFoundException;
 
-class CreateCinema
+class UpdateCinema
 {
     protected $cinemaRepository;
 
@@ -12,11 +13,15 @@ class CreateCinema
         $this->cinemaRepository = $cinemaRepository;
     }
 
-    public function execute(array $data){
-            return $this->cinemaRepository->create([
+    public function execute($id, array $data){
+        if (!$this->cinemaRepository->find($id)){
+            throw new NotFoundException('not_found');
+        }
+        
+        return $this->cinemaRepository->update($id, [
              'name' => $data['name'],
              'address' => $data['address']
-            ]);
+        ]);
             
     }
 }
